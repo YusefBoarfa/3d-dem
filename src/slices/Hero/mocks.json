@@ -2,7 +2,41 @@
 	{
 		"__TYPE__": "SharedSliceContent",
 		"variation": "default",
-		"primary": {},
+		"primary": {
+			"heading": {
+				"__TYPE__": "StructuredTextContent",
+				"value": [
+					{
+						"type": "heading1",
+						"content": {
+							"text": "Familiar skateboard",
+							"spans": []
+						},
+						"direction": "ltr"
+					}
+				]
+			},
+			"body": {
+				"__TYPE__": "StructuredTextContent",
+				"value": [
+					{
+						"type": "paragraph",
+						"content": {
+							"text": "Do est magna veniam exercitation elit ea ea voluptate esse duis proident laborum minim sint. Nulla in commodo officia magna anim esse officia officia id quis do officia ullamco consequat amet. Velit sit elit irure ad aliqua non anim sit sint sunt aute minim velit ut."
+						}
+					}
+				]
+			},
+			"button": {
+				"key": "07023a0d-c525-425d-9f04-f50714e983f0",
+				"__TYPE__": "LinkContent",
+				"value": {
+					"__TYPE__": "ExternalLink",
+					"url": "https://prismic.io",
+					"text": "refused"
+				}
+			}
+		},
 		"items": []
 	}
 ]
