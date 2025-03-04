@@ -33,8 +33,32 @@
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-sans);
+.bg-texture {
+  background-image: url("/bg-texture.png");
+  background-size: 720px 460px;
+  background-repeat: repeat;
+  background-position: center;
+}
+
+/* Definición de los keyframes para la animación squiggle */
+@keyframes squiggle {
+  0% { filter: url("#squiggle-0"); }
+  25% { filter: url("#squiggle-1"); }
+  50% { filter: url("#squiggle-2"); }
+  75% { filter: url("#squiggle-3"); }
+  100% { filter: url("#squiggle-4"); }
+}
+
+/* Clase de utilidad para aplicar la animación */
+.animate-squiggle {
+  animation: squiggle 500ms linear infinite;
+}
+
+/* Variantes de duración */
+.animate-squiggle-slow {
+  animation: squiggle 1s linear infinite;
+}
+
+.animate-squiggle-fast {
+  animation: squiggle 300ms linear infinite;
 }
