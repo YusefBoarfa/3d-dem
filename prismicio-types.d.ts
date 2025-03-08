@@ -4,7 +4,72 @@ import type * as prismic from "@prismicio/client";
 
 type Simplify<T> = { [KeyType in keyof T]: T[KeyType] };
 
-type HomepageDocumentDataSlicesSlice = HeroSlice;
+/**
+ * Content for dropSkate documents
+ */
+interface DropskateDocumentData {
+  /**
+   * name field in *dropSkate*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: dropskate.name
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  name: prismic.KeyTextField;
+
+  /**
+   * image field in *dropSkate*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: dropskate.image
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#image
+   */
+  image: prismic.ImageField<never>;
+
+  /**
+   * price field in *dropSkate*
+   *
+   * - **Field Type**: Number
+   * - **Placeholder**: *None*
+   * - **API ID Path**: dropskate.price
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#number
+   */
+  price: prismic.NumberField;
+
+  /**
+   * link field in *dropSkate*
+   *
+   * - **Field Type**: Link
+   * - **Placeholder**: *None*
+   * - **API ID Path**: dropskate.link
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  link: prismic.LinkField<string, string, unknown, prismic.FieldState, never>;
+}
+
+/**
+ * dropSkate document from Prismic
+ *
+ * - **API ID**: `dropskate`
+ * - **Repeatable**: `true`
+ * - **Documentation**: https://prismic.io/docs/custom-types
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type DropskateDocument<Lang extends string = string> =
+  prismic.PrismicDocumentWithUID<
+    Simplify<DropskateDocumentData>,
+    "dropskate",
+    Lang
+  >;
+
+type HomepageDocumentDataSlicesSlice = LatestDropSlice | HeroSlice;
 
 /**
  * Content for Homepage documents
@@ -69,7 +134,79 @@ export type HomepageDocument<Lang extends string = string> =
     Lang
   >;
 
-export type AllDocumentTypes = HomepageDocument;
+/**
+ * Item in *Settings → Navigation*
+ */
+export interface SettingsDocumentDataNavigationItem {
+  /**
+   * Link field in *Settings → Navigation*
+   *
+   * - **Field Type**: Link
+   * - **Placeholder**: *None*
+   * - **API ID Path**: settings.navigation[].link
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  link: prismic.LinkField<string, string, unknown, prismic.FieldState, never>;
+}
+
+/**
+ * Content for Settings documents
+ */
+interface SettingsDocumentData {
+  /**
+   * Site Title field in *Settings*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: settings.site_title
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  site_title: prismic.KeyTextField;
+
+  /**
+   * Metadescription field in *Settings*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: settings.metadescription
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  metadescription: prismic.KeyTextField;
+
+  /**
+   * Navigation field in *Settings*
+   *
+   * - **Field Type**: Group
+   * - **Placeholder**: *None*
+   * - **API ID Path**: settings.navigation[]
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#group
+   */
+  navigation: prismic.GroupField<Simplify<SettingsDocumentDataNavigationItem>>;
+}
+
+/**
+ * Settings document from Prismic
+ *
+ * - **API ID**: `settings`
+ * - **Repeatable**: `false`
+ * - **Documentation**: https://prismic.io/docs/custom-types
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type SettingsDocument<Lang extends string = string> =
+  prismic.PrismicDocumentWithoutUID<
+    Simplify<SettingsDocumentData>,
+    "settings",
+    Lang
+  >;
+
+export type AllDocumentTypes =
+  | DropskateDocument
+  | HomepageDocument
+  | SettingsDocument;
 
 /**
  * Primary content in *Hero → Default → Primary*
@@ -133,6 +270,86 @@ type HeroSliceVariation = HeroSliceDefault;
  */
 export type HeroSlice = prismic.SharedSlice<"hero", HeroSliceVariation>;
 
+/**
+ * Item in *LatestDrop → Default → Primary → Drops*
+ */
+export interface LatestDropSliceDefaultPrimaryDropsItem {
+  /**
+   * skateDrop field in *LatestDrop → Default → Primary → Drops*
+   *
+   * - **Field Type**: Content Relationship
+   * - **Placeholder**: *None*
+   * - **API ID Path**: latest_drop.default.primary.drops[].skatedrop
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  skatedrop: prismic.ContentRelationshipField<"dropskate">;
+}
+
+/**
+ * Primary content in *LatestDrop → Default → Primary*
+ */
+export interface LatestDropSliceDefaultPrimary {
+  /**
+   * Title field in *LatestDrop → Default → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: latest_drop.default.primary.title
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  title: prismic.RichTextField;
+
+  /**
+   * subtitle field in *LatestDrop → Default → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: latest_drop.default.primary.subtitle
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  subtitle: prismic.RichTextField;
+
+  /**
+   * Drops field in *LatestDrop → Default → Primary*
+   *
+   * - **Field Type**: Group
+   * - **Placeholder**: *None*
+   * - **API ID Path**: latest_drop.default.primary.drops[]
+   * - **Documentation**: https://prismic.io/docs/field#group
+   */
+  drops: prismic.GroupField<Simplify<LatestDropSliceDefaultPrimaryDropsItem>>;
+}
+
+/**
+ * Default variation for LatestDrop Slice
+ *
+ * - **API ID**: `default`
+ * - **Description**: Default
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type LatestDropSliceDefault = prismic.SharedSliceVariation<
+  "default",
+  Simplify<LatestDropSliceDefaultPrimary>,
+  never
+>;
+
+/**
+ * Slice variation for *LatestDrop*
+ */
+type LatestDropSliceVariation = LatestDropSliceDefault;
+
+/**
+ * LatestDrop Shared Slice
+ *
+ * - **API ID**: `latest_drop`
+ * - **Description**: LatestDrop
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type LatestDropSlice = prismic.SharedSlice<
+  "latest_drop",
+  LatestDropSliceVariation
+>;
+
 declare module "@prismicio/client" {
   interface CreateClient {
     (
@@ -154,14 +371,24 @@ declare module "@prismicio/client" {
 
   namespace Content {
     export type {
+      DropskateDocument,
+      DropskateDocumentData,
       HomepageDocument,
       HomepageDocumentData,
       HomepageDocumentDataSlicesSlice,
+      SettingsDocument,
+      SettingsDocumentData,
+      SettingsDocumentDataNavigationItem,
       AllDocumentTypes,
       HeroSlice,
       HeroSliceDefaultPrimary,
       HeroSliceVariation,
       HeroSliceDefault,
+      LatestDropSlice,
+      LatestDropSliceDefaultPrimaryDropsItem,
+      LatestDropSliceDefaultPrimary,
+      LatestDropSliceVariation,
+      LatestDropSliceDefault,
     };
   }
 }
